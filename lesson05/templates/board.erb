@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Scacchiera</title> 
+    <style type="text/css">
+      table { border: 1px solid black; }
+      td { width: 1em; }
+      td.even { background-color: black; }
+      form { margin-top: 2em;}
+    </style>       
+  </head>
+  <body>
+    
+    <p id="description">
+    </p>
+    
+    <table>
+      <% for r in (0...@size) %>
+        <tr>
+          <% for c in (0...@size) %>
+            <td class='<%= cell_class(r,c) %>'>&nbsp;</td>
+          <% end %>      
+        </tr>
+      <% end %>
+    </table>
+    
+    <form method='get'>
+      <input type='text' name='size' value='<%= @size %>' />
+      <input type='submit' value='cambia dimensione' />
+    </form>
+  </body>
+</html>
