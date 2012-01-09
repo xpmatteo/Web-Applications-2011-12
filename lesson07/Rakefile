@@ -1,0 +1,9 @@
+
+ROOT = File.dirname(__FILE__)
+
+task :default => [:test]
+
+task :test do 
+  require 'rake/runtest'
+  Rake.run_tests ROOT + '/test/*test.rb'
+end
