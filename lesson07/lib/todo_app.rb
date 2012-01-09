@@ -5,11 +5,11 @@ class TodoApp
   end
 
   def execute(request, response) 
-    if request.path == @path
+    #if request.path.start_with? @path
       @page.execute(request, response)
-    else
-      response.status = 404
-    end
+    #else
+    #  response.status = 404
+    #end
   end
 end
 

@@ -1,13 +1,11 @@
 require 'test/unit'
 require 'stringio'
 
-ROOT = File.dirname(__FILE__) + "/.."
-require ROOT + "/lib/web_response"
+require "web_response"
 
 class WebResponseTest < Test::Unit::TestCase
 
   def setup
-    @request = WebRequest.new
     @response = WebResponse.new
   end
 
@@ -33,9 +31,23 @@ class WebResponseTest < Test::Unit::TestCase
       "Status: 404 Not Found\r\n" +
       "Content-Type: text/html\r\n" +      
       "\r\n" +
-      "<h1>404: Not Found</h1>"
+      "<h1>404 Not Found</h1>"
     assert_equal expected, buffer.string
     assert_equal 404, @response.status
   end
 
+  def test_redirects
+    buffer = StringIO.new
+    @response.redirect "/foo/bar"
+    @response.output(buffer)
+    
+    expected = 
+      "Status: 302 Found\r\n" +
+      "Location: http://todo-list/foo/bar\r\n" +      
+      "Content-Type: text/html\r\n" +      
+      "\r\n" +
+      "<h1>302 Found</h1>"
+    assert_equal expected, buffer.string
+    assert_equal 302, @response.status
+  end
 end

@@ -1,9 +1,11 @@
 
-ROOT = File.dirname(__FILE__)
+def root; File.dirname(__FILE__); end
+
+$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../lib') #unless $LOAD_PATH.include?(File.dirname(__FILE__) + '/../lib')
 
 task :default => [:test]
 
 task :test do 
   require 'rake/runtest'
-  Rake.run_tests ROOT + '/test/*test.rb'
+  Rake.run_tests root + '/test/*test.rb'
 end
