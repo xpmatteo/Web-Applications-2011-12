@@ -1,6 +1,7 @@
 require "template"
+require "todo_list"
 
-class HomePage
+class TodoListsController
   def initialize(repository)
     @repository = repository
   end
@@ -14,7 +15,7 @@ class HomePage
       @repository.add(TodoList.new(request["name"]))
       response.redirect "/"
     else
-      template = Template.new("home_page.html")
+      template = Template.new("lists/index.html")
       @todo_lists = @repository.all
       response.write_html template.expand(binding)        
     end

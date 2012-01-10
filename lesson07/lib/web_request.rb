@@ -18,7 +18,7 @@ class WebRequest
   private
   
   def load_path
-    @path = ENV["REQUEST_URI"]
+    @path = ENV["REQUEST_URI"].to_s.split("?")[0]
   end
   
   def load_params

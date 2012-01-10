@@ -8,4 +8,11 @@ class WebRequestTest < Test::Unit::TestCase
     request = WebRequest.new
     assert_equal "/a/b/c", request.path
   end
+
+
+  def test_path_does_not_include_query_string
+    ENV["REQUEST_URI"] = "/a?foo=bar"
+    request = WebRequest.new
+    assert_equal "/a", request.path
+  end
 end

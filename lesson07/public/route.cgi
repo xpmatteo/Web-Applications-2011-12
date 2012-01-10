@@ -1,24 +1,30 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
+ROOT = File.dirname(__FILE__) + "/.."
+$LOAD_PATH.unshift(ROOT + "/lib")
+SAVE_FILE = "/tmp/repo.dat"
 
-root = File.dirname(__FILE__)
-
-require "todo_app"
+require "router"
 require "web_request"
 require "web_response"
-require "home_page"
+require "todo_lists_controller"
 require "todo_list_repository"
 
 request = WebRequest.new
 response = WebResponse.new
-app = TodoApp.new
-home_page = HomePage.new(TodoListRepository.new)
-app.add("/", home_page)
-app.add("/lists/new", home_page)
-app.add("/lists/create", home_page)
-app.execute(request, response)
+repository = TodoListRepository.new
+repository.load_from(SAVE_FILE)
+controller = TodoListsController.new(repository)
+
+router = Router.new
+router.add("/lists/create", controller)
+router.add("/lists/new", controller)
+router.add("/", controller)
+
+router.execute(request, response)
 response.output(STDOUT)
+
+repository.save_on(SAVE_FILE)
 
 # STDOUT.print "<pre>"
 # STDOUT.print ENV.inspect.gsub('",', "\",\n")

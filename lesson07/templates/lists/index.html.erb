@@ -1,15 +1,15 @@
+<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-    <title>home_page</title>
-    
+    <title>My Lists</title>    
   </head>
   <body>
     <h1>My Lists</h1>
     <a href="/lists/new">Create New List</a>
     <ul>
       <% for list in @todo_lists %>
-        <li><a><%= list.name %></a></li>
+        <li><a href="/lists/show?id=<%= list.list_id %>"><%= list.name %></a></li>
       <% end %>
     </ul>
   </body>

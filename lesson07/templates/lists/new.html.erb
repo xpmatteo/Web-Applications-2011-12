@@ -1,7 +1,17 @@
-<form action="/lists/create">
-  <label for="name">Name your new list</label>
-  <br/>
-  <input type="text" name="name" value="" id="name"/>
-  <br/>
-  <input type="submit" value="Create this list"/> or <a href="/">Cancel</a>
-</form>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <title>Create new list</title>    
+  </head>
+  <body>
+    <h1>Create new list</h1>
+    <form action="/lists/create" method="post">
+      <label for="name">Name your new list</label>
+      <br/>
+      <input type="text" name="name" value="" id="name"/>
+      <br/>
+      <input type="submit" value="Create this list"/> or <a href="/">Cancel</a>
+    </form>    
+  </body>
+</html>

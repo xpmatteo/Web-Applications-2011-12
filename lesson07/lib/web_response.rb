@@ -53,7 +53,5 @@ class WebResponse
   def value(header)
     header.split(":", 2)[1].strip
   end
-
-  
 end
 
