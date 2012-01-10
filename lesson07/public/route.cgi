@@ -19,6 +19,7 @@ controller = TodoListsController.new(repository)
 router = Router.new
 router.add("/lists/create", controller)
 router.add("/lists/new", controller)
+router.add("/lists/show", controller)
 router.add("/", controller)
 
 router.execute(request, response)

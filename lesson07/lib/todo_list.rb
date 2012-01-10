@@ -5,5 +5,9 @@ class TodoList
   def initialize(name)
     @name = name
   end
+  
+  def items
+    ["pippo", "Pluto"]
+  end
 end
 
