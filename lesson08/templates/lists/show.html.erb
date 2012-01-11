@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <title>List: <%= @todo_list.name %></title>    
+  </head>
+  <body>
+    <h1><%= @todo_list.name %></h1>
+    <ul>
+      <% for item in @todo_list.items %>
+        <li><%= item.to_s %></li>
+      <% end %>
+    </ul>
+    <form action="/lists/add_item?list_id=<%= @todo_list.list_id %>" method="post">
+      <input type="text" name="item" />
+      <br/>
+      <input type="submit" value="+ Add this item"/> <a href="/">Close</a>
+    </form>
+    
+  </body>
+</html>

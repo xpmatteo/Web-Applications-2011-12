@@ -1,0 +1,32 @@
+body {
+  font-family: arial, sans-serif;
+  font-size: 10pt;
+  color: #444;
+}
+
+#content {
+  width: 25em;
+  margin: 0px auto;
+}
+
+.field_with_errors {
+  background: pink;
+}
+
+.author {
+  text-align: right;
+}
+
+.comments {
+  margin-left: 20%;  
+  width: 80%;
+}
+
+.comment {
+  font-size: 9pt;
+  margin-bottom: 2em;
+}
+
+.comment > .author {
+  font-style: italic;
+}
