@@ -15,6 +15,10 @@ class WebRequest
     @params[index] = value
   end
   
+  def to_s
+    @params.inspect
+  end
+  
   private
   
   def load_path
@@ -32,8 +36,15 @@ class WebRequest
     end
     query_string.split("&").each do |pair|
       key = pair.split("=")[0]
-      value = pair.split("=")[1]
-      @params[key] = value
+      value = pair.split("=")[1] || ""
+      @params[key] = url_decode(value) 
     end
-  end  
+  end
+  
+  def url_decode(string)
+    # - sostituisci "+" con " "
+    string.gsub("+", " ")
+    
+    # - sostituisci %XY con il carattere ascii che ha codice esadecimale XY
+  end
 end

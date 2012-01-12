@@ -10,8 +10,10 @@ class Router
 
   def execute(request, response) 
     @paths.each do |path, controller|
-      if request.path === path
-        controller.execute(request, response)
+      if path === request.path
+        controller.request = request
+        controller.response = response
+        controller.execute
         return
       end
     end

@@ -1,9 +1,7 @@
 require 'test/unit'
 require 'stringio'
 
-require "web_response"
-require "web_request"
-require "router"
+require 'todo_application'
 
 class RouterTest < Test::Unit::TestCase
 
@@ -20,7 +18,8 @@ class RouterTest < Test::Unit::TestCase
   end
 
   class HelloWorldPage
-    def execute(request, response)
+    attr_accessor :request, :response
+    def execute
       response.write_html("Hello, World!")
     end
   end

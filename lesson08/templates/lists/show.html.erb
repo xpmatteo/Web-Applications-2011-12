@@ -3,19 +3,43 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <title>List: <%= @todo_list.name %></title>    
+    <style type="text/css" media="screen">
+      ul {
+        list-style: none;
+      }
+      ul#checked {
+        color: gray;
+        text-decoration: line-through;
+      }
+    </style>
   </head>
-  <body>
+  <body>    
     <h1><%= @todo_list.name %></h1>
     <ul>
       <% for item in @todo_list.items %>
-        <li><%= item.to_s %></li>
+        <li>
+          <form action="/lists/check_item" method="post">
+            <input type="hidden" name="list_id" value="<%= @todo_list.list_id %>" />
+            <input type="hidden" name="item_id" value="<%= item.item_id %>" />
+            <input type="checkbox" onmouseup="submit()" />
+            <%= item.to_s %>
+          </form>          
+        </li>
       <% end %>
     </ul>
-    <form action="/lists/add_item?list_id=<%= @todo_list.list_id %>" method="post">
-      <input type="text" name="item" />
+    <form action="/lists/add_item" method="post">
+      <input type="hidden" name="list_id" value="<%= @todo_list.list_id %>" />
+      <input type="text" name="description" />
       <br/>
       <input type="submit" value="+ Add this item"/> <a href="/">Close</a>
     </form>
     
+    <ul id="checked">
+      <% for item in @todo_list.checked_items %>
+        <li>            
+            <%= item.to_s %>
+        </li>
+      <% end %>
+    </ul>
   </body>
 </html>

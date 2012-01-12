@@ -1,39 +1,72 @@
-require "template"
-require "todo_list"
+require 'todo_application'
 
 class TodoListsController
+  attr_accessor :request, :response
+  
   def initialize(repository)
     @repository = repository
   end
   
-  def execute(request, response)
+  def execute
     case request.path
     when "/lists/new" 
-      template = Template.new("lists/new.html")
-      response.write_html template.expand(binding)        
+      do_new
     when "/lists/create"
-      @repository.add(TodoList.new(request["name"]))
-      response.redirect "/"
+      create
+    when "/lists/add_item"
+      add_item
     when "/lists/show"
-      show(request, response)
+      show
+    when "/lists/check_item"
+      check_item
     else
-      index(request, response)
+      index
     end
   end
   
-  def index(request, response)
+  def check_item
+    @repository.check_item(request["item_id"].to_i)
+    @response.redirect(show_url)
+  end
+
+  def do_new
+    render "lists/new.html"
+  end
+
+  def create
+    @repository.add(TodoList.new(@request["name"]))
+    @response.redirect "/"    
+  end
+  
+  def add_item
+    list_id = @request["list_id"].to_i
+    @repository.add_item list_id, @request["description"]
+    
+    @response.redirect(show_url)
+  end
+  
+  def index
     template = Template.new("lists/index.html")
     @todo_lists = @repository.all
-    response.write_html template.expand(binding)    
+    @response.write_html template.expand(binding)    
   end
   
-  def show(request, response)
-    @todo_list = @repository.find(request["id"].to_i)
+  def show
+    @todo_list = @repository.find(@request["id"].to_i)
     if @todo_list
       template = Template.new("lists/show.html")
-      response.write_html template.expand(binding)
+      @response.write_html template.expand(binding)
     else
-      response.status = 404
+      @response.status = 404
     end
+  end
+  
+  def show_url
+    "/lists/show?id=#{@request["list_id"].to_i}"
+  end
+  
+  def render(template_name)
+    template = Template.new(template_name)
+    @response.write_html template.expand(binding)        
   end
 end

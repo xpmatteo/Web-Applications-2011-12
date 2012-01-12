@@ -4,28 +4,36 @@ ROOT = File.dirname(__FILE__) + "/.."
 $LOAD_PATH.unshift(ROOT + "/lib")
 SAVE_FILE = "/tmp/repo.dat"
 
-require "router"
-require "web_request"
-require "web_response"
-require "todo_lists_controller"
-require "todo_list_repository"
+require 'todo_application'
 
 request = WebRequest.new
 response = WebResponse.new
-repository = TodoListRepository.new
-repository.load_from(SAVE_FILE)
-controller = TodoListsController.new(repository)
+begin
+  repository = TodoListRepository.new
+  repository.load_from(SAVE_FILE)
+  controller = TodoListsController.new(repository)
 
-router = Router.new
-router.add("/lists/create", controller)
-router.add("/lists/new", controller)
-router.add("/lists/show", controller)
-router.add("/", controller)
+  router = Router.new
+  router.add(/^\/lists/, controller)
+  router.add("/", controller)
 
-router.execute(request, response)
+  router.execute(request, response)
+
+  repository.save_on(SAVE_FILE)  
+rescue Exception => e
+  response.status = 500
+  response.write_html <<-EOF
+  <p>#{e}</p>  
+  <pre>
+  #{e.backtrace.join("\n").gsub(ROOT + '/', '')}
+  </pre>
+  <pre>  
+  Params: #{request}
+  </pre>
+  EOF
+end
 response.output(STDOUT)
 
-repository.save_on(SAVE_FILE)
 
 # STDOUT.print "<pre>"
 # STDOUT.print ENV.inspect.gsub('",', "\",\n")
