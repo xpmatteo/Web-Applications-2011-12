@@ -1,18 +1,8 @@
 
-This is the first iteration of development of a clone of http://tadalist.com.  See also the description of the project in http://matteo.vaccari.name/aw/2011/lezione06/slides06.pdf
+We can now create lists, add items and check items as "done".
 
-Follow the instructions in ../lesson06/README.md to install.
+Exercises:
 
-What works:
+  * Decode the parameters; when the query string contains %ab you should substitute with the ascii character whose hex code is "ab".  For instance: try creating a list with the name "foo!" (with the exclamation point.)
+  * It's not possible to uncheck an item.  Make it possible.
 
-  * Home page
-  * Creation of new lists
-
-What does not work yet
-
-  * Concurrency -- the TodoListRepository saves its state in a file.  This is a temporary hack that allows us to get started.
-  
-Next steps
-
-  * Adding new items to a list is partially implemented.  Your job is to complete it.
-  
