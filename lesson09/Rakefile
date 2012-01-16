@@ -1,0 +1,10 @@
+
+ROOT = File.dirname(__FILE__)
+$LOAD_PATH.unshift(ROOT + '/lib')
+
+task :default => [:test]
+
+task :test do 
+  require 'rake/runtest'
+  Rake.run_tests ROOT + '/test/*test.rb'
+end

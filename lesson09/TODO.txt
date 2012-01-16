@@ -1,0 +1,7 @@
+
+- astrarre le URL
+- mettere a fattor comune il layout
+- validazione
+- registrazione utenti
+- sessioni
+- separare le liste per utente
