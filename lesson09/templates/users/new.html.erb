@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <title>Register</title>
+    <link rel="stylesheet" href="/css/style.css" type="text/css"/>        
+  </head>
+  <body>
+    <h1>Register for our website</h1>
+    
+    <% if @user.errors %>
+    <ul>
+      <% for error in @user.errors %>
+      <li><%= error %></li>
+      <% end %>
+    </ul>
+    <% end %>
+    
+    <form action="/users/create" method="post">
+      <%= 
+        form = HtmlForm.new
+        @user.add_fields_to_form(form)
+        form.html
+       %>
+      <p><input type="submit" value="Continue &rarr;"/></p>
+    </form>
+  </body>
+</html>

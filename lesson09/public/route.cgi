@@ -11,11 +11,13 @@ response = WebResponse.new
 begin
   repository = TodoListRepository.new
   repository.load_from(SAVE_FILE)
-  controller = TodoListsController.new(repository)
-
+  lists_controller = TodoListsController.new(repository)
+  users_controller = UsersController.new
+  
   router = Router.new
-  router.add(/^\/lists/, controller)
-  router.add("/", controller)
+  router.add(/^\/lists/, lists_controller)
+  router.add(/^\/users/, users_controller)
+  router.add("/", lists_controller)
 
   router.execute(request, response)
 

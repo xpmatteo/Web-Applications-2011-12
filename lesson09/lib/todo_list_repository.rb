@@ -4,7 +4,7 @@ class TodoListRepository
   @@item_id = 0
 
   def initialize
-    @todo_lists = []    
+    @todo_lists = []   
   end
   
   def check_item item_id

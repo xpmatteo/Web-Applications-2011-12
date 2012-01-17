@@ -5,10 +5,19 @@
     <title>Create new list</title>    
     <link rel="stylesheet" href="/css/style.css" type="text/css"/>        
   </head>
+  
+  <% if @todo_list.errors %>
+  <ul>
+    <% for error in @todo_list.errors %>
+    <li><%= error %></li>
+    <% end %>
+  </ul>
+  <% end %>
+  
   <body>
     <h1 class="new-list">Name your new list</h1>
     <form action="/lists/create" method="post">
-      <input class="big" type="text" name="name" value="" id="name"/>
+      <input class="big" type="text" name="name" value="<%= @todo_list.name %>" id="name"/>
       <br/>
       <input type="submit" value="Create this list"/> 
       or <a href="/" class="admin">Cancel</a>

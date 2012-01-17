@@ -1,6 +1,6 @@
 require 'todo_application'
 
-class TodoList
+class TodoList < DataCollection
   attr_reader :name
   attr_accessor :list_id
   
@@ -24,5 +24,14 @@ class TodoList
   
   def checked_items
     @items.select { |item| item.checked? }
+  end
+  
+  def validate
+    if blank?(name)
+      add_error "Name is required"
+    end
+    if name && name.length < 3
+      add_error "Name must be longer than 3 characters"
+    end
   end
 end

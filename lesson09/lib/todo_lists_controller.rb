@@ -1,6 +1,6 @@
 require 'todo_application'
 
-class TodoListsController
+class TodoListsController < Controller
   attr_accessor :request, :response
   
   def initialize(repository)
@@ -30,12 +30,18 @@ class TodoListsController
   end
 
   def do_new
+    @todo_list = TodoList.new("")
     render "lists/new.html"
   end
 
   def create
-    @repository.add(TodoList.new(@request["name"]))
-    @response.redirect "/"    
+    @todo_list = TodoList.new(@request["name"])
+    if @todo_list.valid?
+      @repository.add(@todo_list)
+      @response.redirect "/"
+    else
+      render "lists/new.html"
+    end
   end
   
   def add_item
@@ -61,10 +67,5 @@ class TodoListsController
   
   def show_url
     "/lists/show?id=#{@request["list_id"].to_i}"
-  end
-  
-  def render(template_name)
-    template = Template.new(template_name)
-    @response.write_html template.expand(binding)        
   end
 end
