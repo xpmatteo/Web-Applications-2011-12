@@ -1,11 +1,17 @@
 class DataCollection
-  attr_accessor :attribute_names
-  
   def initialize(params={})
+    @attribute_names = []
     @attributes = {}
-    for name in attribute_names
+  end
+  
+  def add_attribute(name)
+    @attribute_names << name
+  end
+  
+  def set_from(params={})
+    for name in @attribute_names
       @attributes[name] = params[name]
-    end    
+    end
   end
   
   def [](name)

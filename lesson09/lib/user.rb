@@ -1,7 +1,12 @@
 class User < DataCollection
-  def initialize(params={})    
-    attribute_names = ["username", "email", "url"]
-    super(params)
+  def initialize(params={})
+    # must initialize DataCollection
+    super()
+    
+    add_attribute "username"
+    add_attribute "email"
+    add_attribute "url"
+    set_from(params)
   end
   
   def validate

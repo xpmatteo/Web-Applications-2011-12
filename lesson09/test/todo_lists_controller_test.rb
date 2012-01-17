@@ -1,10 +1,11 @@
 require "test/unit"
-require 'rexml/document'
-require 'rexml/xpath'
 
 require 'todo_application'
+require 'util/assert_xpath'
 
 class TodoListsControllerTest < Test::Unit::TestCase
+  include AssertXPath
+
   def setup
     @request = WebRequest.new
     @response = WebResponse.new
@@ -68,17 +69,6 @@ class TodoListsControllerTest < Test::Unit::TestCase
 
   private
 
-  def assert_redirected_to(path)
-    assert_equal 302, @response.status
-    assert_equal path, @response.headers("location")
-  end
-
-  def assert_xpath path
-    document = REXML::Document.new(@response.body)
-    nodes = REXML::XPath.match(document, path)
-    assert nodes.size == 1, "Exactly one element matching #{path} expected" + "\n" + @response.body
-  end
-  
   def todo_list_show_url(list)
     list_id = 
       if Integer === list

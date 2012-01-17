@@ -9,10 +9,11 @@ require 'todo_application'
 request = WebRequest.new
 response = WebResponse.new
 begin
-  repository = TodoListRepository.new
-  repository.load_from(SAVE_FILE)
-  lists_controller = TodoListsController.new(repository)
-  users_controller = UsersController.new
+  todo_list_repository = TodoListRepository.new
+  todo_list_repository.load_from(SAVE_FILE)
+  user_repository = UserRepository.new
+  lists_controller = TodoListsController.new(todo_list_repository)
+  users_controller = UsersController.new(user_repository)
   
   router = Router.new
   router.add(/^\/lists/, lists_controller)
@@ -21,7 +22,7 @@ begin
 
   router.execute(request, response)
 
-  repository.save_on(SAVE_FILE)  
+  todo_list_repository.save_on(SAVE_FILE)  
 rescue Exception => e
   response.status = 500
   response.write_html <<-EOF

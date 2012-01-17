@@ -1,5 +1,5 @@
 
-We can now create lists, add items and check items as "done".
+We started creating a registration page.
 
 Exercises:
 

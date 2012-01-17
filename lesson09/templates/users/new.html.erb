@@ -9,7 +9,7 @@
     <h1>Register for our website</h1>
     
     <% if @user.errors %>
-    <ul>
+    <ul class='errors'>
       <% for error in @user.errors %>
       <li><%= error %></li>
       <% end %>
