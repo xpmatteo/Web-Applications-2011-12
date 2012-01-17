@@ -46,16 +46,14 @@ class TodoListsController
   end
   
   def index
-    template = Template.new("lists/index.html")
     @todo_lists = @repository.all
-    @response.write_html template.expand(binding)    
+    render "lists/index.html"
   end
   
   def show
     @todo_list = @repository.find(@request["id"].to_i)
     if @todo_list
-      template = Template.new("lists/show.html")
-      @response.write_html template.expand(binding)
+      render "lists/show.html"
     else
       @response.status = 404
     end
