@@ -1,0 +1,8 @@
+AddHandler cgi-script .cgi
+Options +FollowSymLinks +ExecCGI +Indexes -Multiviews
+
+# If a request is *not* for an existing file, redirect it to the
+# dispatch.cgi script
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ route.cgi [QSA,L]
