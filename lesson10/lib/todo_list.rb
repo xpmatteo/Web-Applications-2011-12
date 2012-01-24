@@ -34,4 +34,8 @@ class TodoList < DataCollection
       add_error "Name must be longer than 3 characters"
     end
   end
+  
+  def ==(other)
+    [self.todo_list_id, self.name] == [other.todo_list_id, other.name]
+  end
 end
