@@ -16,8 +16,8 @@ require 'web_request'
 require 'web_response'
 
 def we_are_testing
-  # il nome del file ruby che eseguiamo finisce con "_test.rb"?
-  /_test.rb$/ === $0
+  # il nome del file ruby che eseguiamo finisce con "_test.rb" oppure "rake"?
+  /(_test.rb|rake)$/ === $0
 end
 
 if we_are_testing

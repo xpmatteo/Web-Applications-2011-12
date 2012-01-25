@@ -11,8 +11,8 @@
       <% for item in @todo_list.items %>
         <li>
           <form action="/lists/check_item" method="post">
-            <input type="hidden" name="list_id" value="<%= @todo_list.list_id %>" />
-            <input type="hidden" name="item_id" value="<%= item.item_id %>" />
+            <input type="hidden" name="list_id" value="<%= @todo_list.todo_list_id %>" />
+            <input type="hidden" name="item_id" value="<%= item.todo_item_id %>" />
             <input type="checkbox" onmouseup="submit()" />
             <%= item.to_s %>
           </form>          
@@ -20,7 +20,7 @@
       <% end %>
     </ul>
     <form action="/lists/add_item" method="post">
-      <input type="hidden" name="list_id" value="<%= @todo_list.list_id %>" />
+      <input type="hidden" name="list_id" value="<%= @todo_list.todo_list_id %>" />
       <input type="text" name="description" size=40 class="item" />
       <br/>
       <input class="item" type="submit" value="+ Add this item"/> 

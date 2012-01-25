@@ -9,7 +9,7 @@ require 'todo_application'
 request = WebRequest.new
 response = WebResponse.new
 begin
-  todo_list_repository = TodoListRepository.new
+  todo_list_repository = TodoListRepository.new(Database.new)
   user_repository = UserRepository.new
   lists_controller = TodoListsController.new(todo_list_repository)
   users_controller = UsersController.new(user_repository)

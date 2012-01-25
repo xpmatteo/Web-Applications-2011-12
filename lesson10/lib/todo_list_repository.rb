@@ -12,8 +12,13 @@ class TodoListRepository
   end
 
   def add_item(list, item_description)
+    if Integer === list
+      id = list
+    else
+      id = list.todo_list_id
+    end
     sql = "insert into todo_items (description, todo_list_id) values (?,?)"
-    @database.insert sql, item_description, list.todo_list_id
+    @database.insert sql, item_description, id
   end
   
   def check_item item_id
@@ -22,34 +27,25 @@ class TodoListRepository
   end
   
   def find(list_id)
-    rows = @database.select("select * from todo_lists where todo_list_id = ?", list_id)
-    if rows.size == 0
-      raise "List not found #{list_id}"
-    end
-    items = find_items(list_id)
-    make_todo_list(rows[0], items)
+    find_by_sql("select * from todo_lists where todo_list_id = ?", list_id)
+  end
+  
+  def last
+    find_by_sql "select * from todo_lists order by todo_list_id desc limit 1"
   end
   
   def all
-    rows = @database.select("select * from todo_lists order by todo_list_id")
+    list_rows = @database.select("select * from todo_lists order by todo_list_id")
     result = []
-    for row in rows
-      result << make_todo_list(row)
+    for list_row in list_rows
+      # N+1 queries!!! Performance problem here !!!
+      result << make_todo_list(list_row, find_items(list_row["todo_list_id"]))
     end
     result
   end
   
   def size
     @database.select_one_value "select count(*) from todo_lists"
-  end
-  
-  def last
-    sql = "select * from todo_lists order by todo_list_id desc limit 1"
-    rows = @database.select(sql)
-    if rows.size == 0
-      raise "List not found (last)"
-    end
-    make_todo_list(rows[0])    
   end
   
   private
@@ -70,6 +66,15 @@ class TodoListRepository
       items << TodoItem.new(row)
     end
     items
+  end
+  
+  def find_by_sql(sql, *args)
+    rows = @database.select(sql, *args)
+    if rows.size == 0
+      raise "List not found #{list_id}"
+    end
+    items = find_items(rows[0]["todo_list_id"])
+    make_todo_list(rows[0], items)    
   end
 end
 

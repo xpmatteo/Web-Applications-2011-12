@@ -10,7 +10,7 @@ class TodoListsControllerTest < Test::Unit::TestCase
     @request = WebRequest.new
     @response = WebResponse.new
 
-    @repository = TodoListRepository.new    
+    @repository = TodoListRepository.new(Database.new)
     @list_one = TodoList.new("one")
     @list_two = TodoList.new("two")
     @repository.add @list_one
@@ -22,8 +22,8 @@ class TodoListsControllerTest < Test::Unit::TestCase
 
   def test_shows_a_list_of_lists
     @controller.execute
-    assert_xpath "//ul/li/a[text()='one'][@href='#{todo_list_show_url(0)}']"
-    assert_xpath "//ul/li/a[text()='two'][@href='#{todo_list_show_url(1)}']"
+    assert_xpath "//ul/li/a[text()='one'][@href='#{todo_list_show_url(@list_one.todo_list_id)}']"
+    assert_xpath "//ul/li/a[text()='two'][@href='#{todo_list_show_url(@list_two.todo_list_id)}']"
   end
   
   def test_shows_link_to_create_new_list
@@ -57,24 +57,26 @@ class TodoListsControllerTest < Test::Unit::TestCase
   end
 
   def test_checks_one_item
-    item = @repository.add_item @list_one, "an item"
+    todo_item_id = @repository.add_item @list_one, "an item"
+
     @request.path = "/lists/check_item"
-    @request["list_id"] = @list_one.list_id.to_s
-    @request["item_id"] = item.item_id.to_s
+    @request["list_id"] = @list_one.todo_list_id.to_s
+    @request["item_id"] = todo_item_id.to_s
 
     @controller.execute
+    
     assert_redirected_to "http://todo-list" + todo_list_show_url(@list_one)
-    assert item.checked?, "not checked?"
+    assert_equal 1, @repository.find(@list_one.todo_list_id).checked_items.size, "not checked?"
   end
 
   private
-
+  
   def todo_list_show_url(list)
     list_id = 
       if Integer === list
         list
       else
-        list.list_id
+        list.todo_list_id
       end
     "/lists/show?id=#{list_id}" 
   end

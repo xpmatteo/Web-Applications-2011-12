@@ -10,7 +10,7 @@
     
     <ul class="mylists">
       <% for list in @todo_lists %>
-        <li><a href="/lists/show?id=<%= list.list_id %>"><%= list.name %></a></li>
+        <li><a href="/lists/show?id=<%= list.todo_list_id %>"><%= list.name %></a></li>
       <% end %>
     </ul>
   </body>

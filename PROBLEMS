@@ -1,0 +1,4 @@
+
+ - non usa l'arch esagonale -- i test del controller usano (come i vecchi test di Rails) il repo vero
+ 
+ - non testiamo end-to-end lo script route.cgi
